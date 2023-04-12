@@ -10,7 +10,7 @@ describe("Category unit tests", () => {
     let category = new Category({
       name: "Movie",
     });
-    
+
     let props = omit(category.props, "created_at");
     expect(props).toMatchObject({
       name: "Movie",
@@ -73,7 +73,7 @@ describe("Category unit tests", () => {
     data.forEach((item) => {
       const category = new Category(item.props, item.id as any);
       expect(category.id).not.toBeNull();
-      expect(category.id).toBeInstanceOf(UniqueEntityId);
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
   });
 
@@ -143,5 +143,30 @@ describe("Category unit tests", () => {
       created_at,
     });
     expect(category.created_at).toBe(created_at);
+  });
+
+  test("should update a category", () => {
+    const category = new Category({ name: "Movie" });
+    category.update("Documentary", "some description");
+    expect(category.name).toBe("Documentary");
+    expect(category.description).toBe("some description");
+  });
+
+  test("should active a category", () => {
+    const category = new Category({
+      name: "Filmes",
+      is_active: false,
+    });
+    category.activate();
+    expect(category.is_active).toBeTruthy();
+  });
+
+  test("should disable a category", () => {
+    const category = new Category({
+      name: "Filmes",
+      is_active: true,
+    });
+    category.deactivate();
+    expect(category.is_active).toBeFalsy();
   });
 });
