@@ -9,7 +9,7 @@ export type CategoryProperties = {
 };
 
 export class Category extends Entity<CategoryProperties> {
-  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
+  public constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
     super(props, id);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
