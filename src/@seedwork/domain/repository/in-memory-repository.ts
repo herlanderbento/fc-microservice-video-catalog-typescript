@@ -48,7 +48,7 @@ export default abstract class InMemoryRepository<E extends Entity>
     const item: E = this.items.find((item: E): boolean => item.id === id);
 
     if (!item) {
-      throw new NotFoundError(`Entity Not Found using ${id}`);
+      throw new NotFoundError(`Entity Not Found using ID ${id}`);
     }
 
     return item;
