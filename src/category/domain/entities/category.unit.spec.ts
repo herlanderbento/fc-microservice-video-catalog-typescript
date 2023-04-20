@@ -1,4 +1,4 @@
-import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity-id.vo";
+import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
 interface CategoryData {
@@ -6,10 +6,16 @@ interface CategoryData {
   id?: UniqueEntityId | null;
 }
 describe("Category unit tests", () => {
+  beforeEach(() => {
+    Category.validate = jest.fn()
+  })
   test("Constructor of category", () => {
+    Category.validate = jest.fn();
     let category = new Category({
       name: "Movie",
     });
+
+    expect(Category.validate).toHaveBeenCalled()
 
     let props = omit(category.props, "created_at");
     expect(props).toMatchObject({
@@ -148,6 +154,7 @@ describe("Category unit tests", () => {
   test("should update a category", () => {
     const category = new Category({ name: "Movie" });
     category.update("Documentary", "some description");
+    expect(Category.validate).toHaveBeenCalledTimes(2)
     expect(category.name).toBe("Documentary");
     expect(category.description).toBe("some description");
   });

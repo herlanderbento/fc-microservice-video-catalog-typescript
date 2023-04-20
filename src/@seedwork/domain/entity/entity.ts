@@ -1,9 +1,9 @@
-import UniqueEntityId from "../../@seedwork/domain/value-object/unique-entity-id.vo";
+import UniqueEntityId from "../value-objects/unique-entity-id.vo";
 
 export default abstract class Entity<Props> {
   public readonly uniqueEntityId: UniqueEntityId;
 
-  constructor(public readonly props: Props, id?: UniqueEntityId) {
+  public constructor(public readonly props: Props, id?: UniqueEntityId) {
     this.uniqueEntityId = id || new UniqueEntityId();
   }
 
