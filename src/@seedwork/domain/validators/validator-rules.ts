@@ -12,7 +12,7 @@ export default class ValidatorRules {
       throw new ValidationError(`The ${this.property} is required`);
     }
     return this;
-  }
+  } 
 
   public string(): Omit<this, "string"> {
     if (!isEmpty(this.value) && typeof this.value !== "string") {
