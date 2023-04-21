@@ -1,4 +1,4 @@
-import { SearchParams } from "./repository-contracts";
+import { SearchParams, SearchResult } from "./repository-contracts";
 
 describe("SearchParams unit tests", () => {
   test("page prop", () => {
@@ -23,9 +23,9 @@ describe("SearchParams unit tests", () => {
     ];
 
     arrange.forEach((item) => {
-      expect(
-        new SearchParams({ page: item.page as any }).page
-      ).toBe(item.expected);
+      expect(new SearchParams({ page: item.page as any }).page).toBe(
+        item.expected
+      );
     });
   });
 
@@ -170,5 +170,79 @@ describe("SearchParams unit tests", () => {
         i.expected
       );
     });
+  });
+});
+
+describe("SearchResult unit tests", () => {
+  test("constructor props", () => {
+    let result = new SearchResult({
+      items: ["entity1", "entity2"] as any,
+      total: 4,
+      current_page: 1,
+      per_page: 2,
+      sort: null,
+      sort_dir: null,
+      filter: null,
+    });
+
+    expect(result.toJSON()).toStrictEqual({
+      items: ["entity1", "entity2"] as any,
+      total: 4,
+      current_page: 1,
+      per_page: 2,
+      last_page: Math.ceil(result.total / result.per_page),
+      sort: null,
+      sort_dir: null,
+      filter: null,
+    });
+
+    result = new SearchResult({
+      items: ["entity1", "entity2"] as any,
+      total: 4,
+      current_page: 1,
+      per_page: 2,
+      sort: "name",
+      sort_dir: "asc",
+      filter: "test",
+    });
+
+    expect(result.toJSON()).toStrictEqual({
+      items: ["entity1", "entity2"] as any,
+      total: 4,
+      current_page: 1,
+      per_page: 2,
+      last_page: Math.ceil(result.total / result.per_page),
+      sort: "name",
+      sort_dir: "asc",
+      filter: "test",
+    });
+  });
+
+  it("should set last_page = 1 when per_page field is greater than total field", () => {
+    const result = new SearchResult({
+      items: [] as any,
+      total: 4,
+      current_page: 1,
+      per_page: 15,
+      sort: "name",
+      sort_dir: "asc",
+      filter: "test",
+    });
+
+    expect(result.last_page).toBe(1);
+  });
+
+  test("last_page prop when total is not a multiple of per_page", () => {
+    const result = new SearchResult({
+      items: [] as any,
+      total:  101,
+      current_page: 1,
+      per_page: 20,
+      sort: "name",
+      sort_dir: "asc",
+      filter: "test",
+    });
+
+    expect(result.last_page).toBe(6);
   });
 });
