@@ -29,6 +29,6 @@ interface CreateCategoryUseCaseProps {
   created_at: Date;
 }
 
-export type Input = Omit<CreateCategoryUseCaseProps, "id" | "create_at">;
+export type Input = Omit<CreateCategoryUseCaseProps, "id" | "created_at">;
 
 export type Output = CreateCategoryUseCaseProps;
