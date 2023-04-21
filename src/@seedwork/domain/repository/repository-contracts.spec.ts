@@ -33,7 +33,6 @@ describe("SearchParams unit tests", () => {
     const params = new SearchParams();
     expect(params.per_page).toBe(15);
 
-    //TODO refactor to test.each
     const arrange = [
       { per_page: null, expected: 15 },
       { per_page: undefined, expected: 15 },
@@ -62,7 +61,6 @@ describe("SearchParams unit tests", () => {
     const params = new SearchParams();
     expect(params.sort).toBeNull();
 
-    //TODO refactor to test.each
     const arrange = [
       { sort: null, expected: null },
       { sort: undefined, expected: null },
@@ -94,7 +92,6 @@ describe("SearchParams unit tests", () => {
     params = new SearchParams({ sort: "" });
     expect(params.sort_dir).toBeNull();
 
-    //TODO refactor to test.each
     const arrange = [
       { sort_dir: null, expected: "asc" },
       { sort_dir: undefined, expected: "asc" },
@@ -129,7 +126,6 @@ describe("SearchParams unit tests", () => {
     params = new SearchParams({ sort: "" });
     expect(params.sort_dir).toBeNull();
 
-    //TODO refactor to test.each
     const arrange = [
       { sort_dir: null, expected: "asc" },
       { sort_dir: undefined, expected: "asc" },
@@ -155,7 +151,6 @@ describe("SearchParams unit tests", () => {
     const params = new SearchParams();
     expect(params.filter).toBeNull();
 
-    //TODO refactor to test.each
     const arrange = [
       { filter: null, expected: null },
       { filter: undefined, expected: null },

@@ -49,7 +49,6 @@ export class SearchParams<Filter = string> {
   }
 
   public get per_page() {
-    
     return this._per_page;
   }
 
@@ -100,10 +99,57 @@ export class SearchParams<Filter = string> {
         : (`${value}` as any);
   }
 }
+
+export type SearchResultProps<E extends Entity, Filter> = {
+  items: E[];
+  total: number;
+  current_page: number;
+  per_page: number;
+  sort: string | null;
+  sort_dir: SortDirection | null;
+  filter: Filter | null;
+};
+
+export class SearchResult<E extends Entity, Filter = string> {
+  public readonly items: E[];
+  public readonly total: number;
+  public readonly current_page: number;
+  public readonly per_page: number;
+  public readonly last_page: number;
+  public readonly sort: string | null;
+  public readonly sort_dir: SortDirection | null;
+  public readonly filter: Filter | null;
+
+  public constructor(props: SearchResultProps<E, Filter>) {
+    this.items = props.items;
+    this.total = props.total;
+    this.current_page = props.current_page;
+    this.per_page = props.per_page;
+    this.last_page = Math.ceil(this.total / this.per_page);
+    this.sort = props.sort;
+    this.sort_dir = props.sort_dir;
+    this.filter = props.filter;
+  }
+
+  public toJSON() {
+    return {
+      items: this.items,
+      total: this.total,
+      current_page: this.current_page,
+      per_page: this.per_page,
+      last_page: this.last_page,
+      sort: this.sort,
+      sort_dir: this.sort_dir,
+      filter: this.filter,
+    };
+  }
+}
+
 export interface SearchableRepositoryInterface<
   E extends Entity,
-  SearchOutput,
-  SearchInput = SearchParams
+  Filter = string,
+  SearchInput = SearchParams,
+  SearchOutput = SearchResult<E, Filter>
 > extends RepositoryInterface<E> {
   search(searchParams: SearchInput): Promise<SearchOutput>;
 }
