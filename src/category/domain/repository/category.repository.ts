@@ -5,7 +5,7 @@ import {
 } from "../../../@seedwork/domain/repository/repository-contracts";
 import { Category } from "../entities/category";
 
-namespace CategoryRepository {
+export namespace CategoryRepository {
   export type Filter = string;
 
   export class SearchParams extends DefaultSearchParams<Filter> {}
