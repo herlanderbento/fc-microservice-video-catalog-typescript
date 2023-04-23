@@ -1,8 +1,9 @@
 import { Category } from "../../domain/entities/category";
-import { CategoryOutput } from "../dto/category-output";
+import { CategoryOutput, CategoryOutputMapper } from "../dto/category-output";
 import CategoryRepository from "../../domain/repository/category.repository";
+import UseCase from "../../../@seedwork/application/use-cases";
 
-export default class CreateCategoryUseCase {
+export default class CreateCategoryUseCase implements UseCase<Input, Output> {
   public constructor(
     private categoryRepository: CategoryRepository.Repository
   ) {}
@@ -12,13 +13,7 @@ export default class CreateCategoryUseCase {
 
     await this.categoryRepository.insert(entity);
 
-    return {
-      id: entity.id,
-      name: entity.name,
-      description: entity.description,
-      is_active: entity.is_active,
-      created_at: entity.created_at,
-    };
+    return CategoryOutputMapper.toOutput(entity);
   }
 }
 

@@ -12,6 +12,8 @@ export type CategoryProperties = {
   created_at?: Date;
 };
 
+export type CategoryPropsJson = Required<{ id: string } & CategoryProperties>;
+
 export class Category extends Entity<CategoryProperties> {
   public constructor(
     public readonly props: CategoryProperties,
@@ -85,4 +87,5 @@ export class Category extends Entity<CategoryProperties> {
   public deactivate(): void {
     this.props.is_active = false;
   }
+
 }

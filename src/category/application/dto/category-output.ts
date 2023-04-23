@@ -1,3 +1,5 @@
+import { Category } from "../../domain/entities/category";
+
 export type CategoryOutput = {
   id: string;
   name: string;
@@ -5,3 +7,9 @@ export type CategoryOutput = {
   is_active?: boolean;
   created_at: Date;
 };
+
+export class CategoryOutputMapper {
+  public static toOutput(entity: Category) {
+    return entity.toJSON();
+  }
+}
