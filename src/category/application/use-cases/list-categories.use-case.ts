@@ -26,18 +26,6 @@ export default class ListCategoriesUseCase implements UseCase<Input, Output> {
     });
     return PaginationOutputMapper.toOutput(items, searchResult);
   }
-
-  // private toOutput(searchResult: CategoryRepository.SearchResult): Output {
-  //   const items = searchResult.items.map((item) => {
-  //     return CategoryOutputMapper.toOutput(item);
-  //   });
-  //   const pagination = PaginationOutputMapper.toOutput(searchResult);
-
-  //   return {
-  //     items,
-  //     ...pagination,
-  //   };
-  // }
 }
 
 export type Input = SearchInputDto;
