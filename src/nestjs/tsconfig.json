@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+  },
+  "include": [
+    "./src",
+    "./test",
+    "./test/jest.config.ts"
+  ],
+  // "include": [
+  //   "src/**/*",
+  //   "test/**/*",
+  //   "jest.config.ts",
+  // ],
+  "eslintConfig": {
+    "ignorePatterns": [
+      "test/jest.config.ts"
+    ]
+  }
+}

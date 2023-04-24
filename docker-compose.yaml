@@ -6,3 +6,6 @@ services:
     container_name: micro-videos-typescript-app
     volumes:
     - .:/home/node/app
+    command: .docker/start.sh
+    ports:
+    - 3000:3000 
