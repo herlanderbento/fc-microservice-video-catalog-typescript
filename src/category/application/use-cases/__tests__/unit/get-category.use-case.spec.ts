@@ -1,6 +1,6 @@
-import { Category } from "../../../../domain/entities/category";
-import NotFoundError from "../../../../../@seedwork/domain/errors/not-found.error";
-import CategoryInMemoryRepository from "../../../../infra/repository/category-in-memory.repository";
+import { Category } from "#category/domain/entities/category";
+import CategoryInMemoryRepository from "#category/infra/repository/category-in-memory.repository";
+import NotFoundError from "#seedwork/domain/errors/not-found.error";
 import GetCategoryUseCase from "../../get-category.use-case";
 describe("GetCategoryUseCase Unit Tests", () => {
   let repository: CategoryInMemoryRepository;
@@ -12,9 +12,9 @@ describe("GetCategoryUseCase Unit Tests", () => {
   });
 
   it("should throws error when entity not found", async () => {
-    await expect(() =>
-      useCase.execute({ id: "fake id" })
-    ).rejects.toThrow(new NotFoundError(`Entity Not Found using ID fake id`));
+    await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID fake id`)
+    );
   });
 
   it("should returns a category", async () => {

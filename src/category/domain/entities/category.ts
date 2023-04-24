@@ -1,9 +1,9 @@
-import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
-import Entity from "../../../@seedwork/domain/entity/entity";
+import Entity from "#seedwork/domain/entity/entity";
+import { EntityValidationError } from "#seedwork/domain/errors/validation-error";
+import UniqueEntityId from "#seedwork/domain/value-objects/unique-entity-id.vo";
 import CategoryValidatorFactory, {
   CategoryValidator,
 } from "../validators/category.validator";
-import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 
 export type CategoryProperties = {
   name: string;
@@ -87,5 +87,4 @@ export class Category extends Entity<CategoryProperties> {
   public deactivate(): void {
     this.props.is_active = false;
   }
-
 }

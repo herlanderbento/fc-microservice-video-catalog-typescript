@@ -1,4 +1,4 @@
-import { SearchResult } from "../../domain/repository/repository-contracts";
+import { SearchResult } from "#seedwork/domain/repository/repository-contracts";
 import { PaginationOutputMapper } from "./pagination-output";
 
 describe("PaginationOutputMapper unit tests", () => {

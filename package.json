@@ -3,14 +3,70 @@
   "version": "1.0.0",
   "description": "admin do catalogo do video",
   "main": "index.js",
+  "imports": {
+    "#seedwork/domain": "./dist/@seedwork/domain/index.js",
+    "#seedwork/*": "./dist/@seedwork/*.js",
+    "#category/domain": "./dist/category/domain/index.js",
+    "#category/*": "./dist/category/*.js",
+    "#cast-member/domain": "./dist/cast-member/domain/index.js",
+    "#cast-member/*": "./dist/cast-member/*.js",
+    "#genre/domain": "./dist/genre/domain/index.js",
+    "#genre/*": "./dist/genre/*.js"
+  },
+  "exports": {
+    "./@seedwork/application": "./dist/@seedwork/application/index.js",
+    "./@seedwork/domain": "./dist/@seedwork/domain/index.js",
+    "./@seedwork/infra": "./dist/@seedwork/infra/index.js",
+    "./category/application": "./dist/category/application/index.js",
+    "./category/domain": "./dist/category/domain/index.js",
+    "./category/infra": "./dist/category/infra/index.js",
+    "./cast-member/application": "./dist/cast-member/application/index.js",
+    "./cast-member/domain": "./dist/cast-member/domain/index.js",
+    "./cast-member/infra": "./dist/cast-member/infra/index.js"
+  },
+  "typesVersions": {
+    ">=4.0": {
+      "@seedwork/application": [
+        "./dist/@seedwork/application/index.d.ts"
+      ],
+      "@seedwork/domain": [
+        "./dist/@seedwork/domain/index.d.ts"
+      ],
+      "@seedwork/infra": [
+        "./dist/@seedwork/infra/index.d.ts"
+      ],
+      "category/application": [
+        "./dist/category/application/index.d.ts"
+      ],
+      "category/domain": [
+        "./dist/category/domain/index.d.ts"
+      ],
+      "category/infra": [
+        "./dist/category/infra/index.d.ts"
+      ],
+      "cast-member/application": [
+        "./dist/cast-member/application/index.d.ts"
+      ],
+      "cast-member/domain": [
+        "./dist/cast-member/domain/index.d.ts"
+      ],
+      "cast-member/infra": [
+        "./dist/cast-member/infra/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "ts-node": "ts-node",
     "tsc": "tsc",
     "tsc:check": "npm run tsc -- --noEmit",
+    "build": "tsc -b ./tsconfig.json",
+    "build:w": "tsc -b ./tsconfig.json -w",
     "clean:tsc": "rm tsconfig.tsbuildinfo",
-    "test": "npm run tsc -- --noEmit && jest",
-    "test:watch": "npm run tsc -- --noEmit && jest --watch",
-    "test:cov": "npm run tsc -- --noEmit && jest --coverage"
+    "test": "jest",
+    "test:cov": "npm run test -- --coverage",
+    "cti": "cti",
+    "cti:make": "sh ./cti.sh",
+    "migrate": "node -r ts-node/register/transpile-only ./src/@seedwork/infra/db/sequelize/migrator-cli.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +77,7 @@
     "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.192",
     "@types/node": "14.14.31",
+    "create-ts-index": "^1.14.0",
     "jest": "^29.5.0",
     "regenerator-runtime": "^0.13.11",
     "ts-node": "^10.9.1",
