@@ -16,4 +16,8 @@
     "noFallthroughCasesInSwitch": false,
     "allowJs": true
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> test

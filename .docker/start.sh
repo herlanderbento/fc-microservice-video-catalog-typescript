@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+#!/bin/bash
+
+>>>>>>> test
 ###### @core configs #######
 echo "###### Starting @core configs ######"
 if [ ! -f "./src/@core/.env.test" ]; then

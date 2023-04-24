@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ES2017",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
+    "paths": {
+      "#seedwork/*": [
+        "./@seedwork/*"
+      ],
+      "#category/*": [
+        "./category/*"
+      ],
+      "#cast-member/*": [
+        "./cast-member/*"
+      ],
+      "#genre/*": [
+        "./genre/*"
+      ]
+    },
+    "outDir": "./dist",
+  },
+  "include": [
+    "src/"
+  ]
+}

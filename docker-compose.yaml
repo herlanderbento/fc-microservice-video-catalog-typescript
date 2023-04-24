@@ -4,8 +4,14 @@ services:
   app: 
     build: .
     container_name: micro-videos-typescript-app
+    command: .docker/start.sh
     volumes:
     - .:/home/node/app
+<<<<<<< HEAD
     command: .docker/start.sh
     ports:
     - 3000:3000 
+=======
+    ports:
+    - 3000:3000
+>>>>>>> test
