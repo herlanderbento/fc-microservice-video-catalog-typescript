@@ -14,15 +14,15 @@
     "#genre/*": "./dist/genre/*.js"
   },
   "exports": {
-    "./@seedwork/application": "./dist/@seedwork/application/index.js",
-    "./@seedwork/domain": "./dist/@seedwork/domain/index.js",
-    "./@seedwork/infra": "./dist/@seedwork/infra/index.js",
-    "./category/application": "./dist/category/application/index.js",
-    "./category/domain": "./dist/category/domain/index.js",
-    "./category/infra": "./dist/category/infra/index.js",
-    "./cast-member/application": "./dist/cast-member/application/index.js",
-    "./cast-member/domain": "./dist/cast-member/domain/index.js",
-    "./cast-member/infra": "./dist/cast-member/infra/index.js"
+    "./src/@seedwork/application": "./dist/@seedwork/application/index.js",
+    "./src/@seedwork/domain": "./dist/@seedwork/domain/index.js",
+    "./src/@seedwork/infra": "./dist/@seedwork/infra/index.js",
+    "./src/category/application": "./dist/category/application/index.js",
+    "./src/category/domain": "./dist/category/domain/index.js",
+    "./src/category/infra": "./dist/category/infra/index.js",
+    "./src/cast-member/application": "./dist/cast-member/application/index.js",
+    "./src/cast-member/domain": "./dist/cast-member/domain/index.js",
+    "./src/cast-member/infra": "./dist/cast-member/infra/index.js"
   },
   "typesVersions": {
     ">=4.0": {

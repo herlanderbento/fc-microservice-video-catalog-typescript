@@ -1,17 +1,17 @@
 import { CategoryRepository } from "../../domain/repository/category.repository";
+import { default as DefaultUseCase } from "../../../@seedwork/application/use-cases";
 import {
   PaginationOutputDto,
   PaginationOutputMapper,
 } from "../../../@seedwork/application/dto/pagination-output";
 import { SearchInputDto } from "../../../@seedwork/application/dto/search-input";
 import { CategoryOutput, CategoryOutputMapper } from "../dto/category-output";
-import { default as DefaultUseCase } from "../../../@seedwork/application/use-cases";
 
 export namespace ListCategoriesUseCase {
   export class UseCase implements DefaultUseCase<Input, Output> {
     public constructor(
       private categoryRepository: CategoryRepository.Repository
-    ) {}
+    ) { }
 
     public async execute(input: Input): Promise<Output> {
       const params = new CategoryRepository.SearchParams(input);

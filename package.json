@@ -1,6 +1,6 @@
 {
   "name": "micro-videos-typescript",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "workspaces": [
@@ -11,6 +11,7 @@
     "prestart:dev": "npm run build -w @fc/micro-videos",
     "start:dev": "npm run build:w -w @fc/micro-videos & npm run start:dev -w nestjs",
     "test": "jest",
+    "nest:build": "nest build",
     "test:cov": "jest --coverage"
   },
   "repository": {

@@ -1,12 +1,12 @@
 import { CategoryRepository } from "../../domain/repository/category.repository";
-import { CategoryOutput, CategoryOutputMapper } from "../dto/category-output";
 import { default as DefaultUseCase } from "../../../@seedwork/application/use-cases";
+import { CategoryOutput, CategoryOutputMapper } from "../dto/category-output";
 
 export namespace UpdateCategoryUseCase {
   export class UseCase implements DefaultUseCase<Input, Output> {
     public constructor(
       private categoryRepository: CategoryRepository.Repository
-    ) {}
+    ) { }
 
     public async execute(input: Input): Promise<Output> {
       const entity = await this.categoryRepository.findById(input.id);

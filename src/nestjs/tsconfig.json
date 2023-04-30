@@ -10,11 +10,6 @@
     "./test",
     "./test/jest.config.ts"
   ],
-  // "include": [
-  //   "src/**/*",
-  //   "test/**/*",
-  //   "jest.config.ts",
-  // ],
   "eslintConfig": {
     "ignorePatterns": [
       "test/jest.config.ts"

@@ -21,20 +21,3 @@ export namespace CategoryRepository {
 }
 
 export default CategoryRepository;
-
-// export type CategoryFilter = string;
-
-// export class CategorySearchParams extends SearchParams<CategoryFilter> {}
-
-// export class CategorySearchResult extends SearchResult<
-//   Category,
-//   CategoryFilter
-// > {}
-
-// export default interface CategoryRepository
-//   extends SearchableRepositoryInterface<
-//     Category,
-//     CategoryFilter,
-//     CategorySearchParams,
-//     CategorySearchResult
-//   > {}
