@@ -2,6 +2,7 @@ import { Category } from "../../../../domain/entities/category";
 import { CategoryInMemoryRepository } from "../../../../infra/repository/category-in-memory.repository";
 import { NotFoundError } from "../../../../../@seedwork/domain/errors/not-found.error";
 import { DeleteCategoryUseCase } from "../../delete-category.use-cases";
+
 describe("DeleteCategoryUseCase Unit Tests", () => {
   let repository: CategoryInMemoryRepository;
   let useCase: DeleteCategoryUseCase.UseCase;

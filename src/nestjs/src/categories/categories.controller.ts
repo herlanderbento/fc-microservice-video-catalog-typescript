@@ -35,26 +35,26 @@ export class CategoriesController {
   private updateUseCase: UpdateCategoryUseCase.UseCase;
 
   @Post()
-  public create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.createUseCase.execute(createCategoryDto)
+  public async create(@Body() createCategoryDto: CreateCategoryDto) {
+    return await this.createUseCase.execute(createCategoryDto)
   }
 
   @Get()
-  public search(@Query() searchParams: SearchCategoryDto) {
-    return this.listUseCase.execute(searchParams)
+  public async search(@Query() searchParams: SearchCategoryDto) {
+    return await this.listUseCase.execute(searchParams)
   }
 
   @Get(':id')
-  public findOne(@Param('id') id: string) {
-    return this.getUseCase.execute({ id })
+  public async findOne(@Param('id') id: string) {
+    return await this.getUseCase.execute({ id })
   }
 
   @Put(':id')
-  public update(
-    @Param('id') id: string,
+  public async update(
+    @Param( 'id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.updateUseCase.execute({
+    return await this.updateUseCase.execute({
       id,
       ...updateCategoryDto,
     })
@@ -62,7 +62,7 @@ export class CategoriesController {
 
   @HttpCode(204)
   @Delete(':id')
-  public remove(@Param('id') id: string) {
-    return this.deleteUseCase.execute({ id })
+  public async remove(@Param('id') id: string) {
+    return await this.deleteUseCase.execute({ id })
   }
 }
