@@ -36,33 +36,33 @@ export class CategoriesController {
 
   @Post()
   public async create(@Body() createCategoryDto: CreateCategoryDto) {
-    return await this.createUseCase.execute(createCategoryDto)
+    return await this.createUseCase.execute(createCategoryDto);
   }
 
   @Get()
   public async search(@Query() searchParams: SearchCategoryDto) {
-    return await this.listUseCase.execute(searchParams)
+    return await this.listUseCase.execute(searchParams);
   }
 
   @Get(':id')
   public async findOne(@Param('id') id: string) {
-    return await this.getUseCase.execute({ id })
+    return await this.getUseCase.execute({ id });
   }
 
   @Put(':id')
   public async update(
-    @Param( 'id') id: string,
+    @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return await this.updateUseCase.execute({
       id,
       ...updateCategoryDto,
-    })
+    });
   }
 
   @HttpCode(204)
   @Delete(':id')
   public async remove(@Param('id') id: string) {
-    return await this.deleteUseCase.execute({ id })
+    return await this.deleteUseCase.execute({ id });
   }
 }

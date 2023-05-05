@@ -3,4 +3,4 @@ import { CreateCategoryDto } from './create-category.dto';
 
 export class UpdateCategoryDto
   extends CreateCategoryDto
-  implements Omit<UpdateCategoryUseCase.Input, 'id'> { }
+  implements Omit<UpdateCategoryUseCase.Input, 'id'> {}

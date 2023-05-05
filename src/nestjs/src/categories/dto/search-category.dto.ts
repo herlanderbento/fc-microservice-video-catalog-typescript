@@ -1,4 +1,4 @@
-import { ListCategoriesUseCase } from "@fc/micro-videos/src/category/application";
+import { ListCategoriesUseCase } from '@fc/micro-videos/src/category/application';
 import { SortDirection } from '@fc/micro-videos/@seedwork/domain';
 
 export class SearchCategoryDto implements ListCategoriesUseCase.Input {

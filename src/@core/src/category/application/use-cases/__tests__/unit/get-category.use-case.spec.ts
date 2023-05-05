@@ -1,5 +1,5 @@
 import { Category } from "../../../../domain/entities/category";
-import { CategoryInMemoryRepository } from "../../../../infra/repository/category-in-memory.repository";
+import { CategoryInMemoryRepository } from "../../../../infra/db/in-memory/category-in-memory.repository";
 import { NotFoundError } from "../../../../../@seedwork/domain/errors/not-found.error";
 import { GetCategoryUseCase } from "../../get-category.use-case";
 describe("GetCategoryUseCase Unit Tests", () => {

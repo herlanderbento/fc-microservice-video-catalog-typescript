@@ -62,16 +62,7 @@ export class Category extends Entity<CategoryProperties> {
     this.name = name;
     this.description = description;
   }
-
-  // public static validate(props: Omit<CategoryProperties, "create_at">): void {
-  //   ValidatorRules.values(props.name, "name")
-  //     .required()
-  //     .string()
-  //     .maxLength(255);
-  //   ValidatorRules.values(props.description, "description").string();
-  //   ValidatorRules.values(props.is_active, "is_active").boolean();
-  // }
-
+  
   public static validate(props: CategoryProperties): void {
     const validator: CategoryValidator = CategoryValidatorFactory.create();
     const isValid = validator.validate(props);
