@@ -1,31 +1,18 @@
-import { Sequelize } from "sequelize-typescript"
-import { CategoryRepository } from "./category-sequelize"
-import { CategoryModel } from "./category-model"
-import { CategoryModelMapper } from "./category-mapper"
+import { CategoryRepository } from "../category-sequelize"
+import { CategoryModel } from "../category-model"
+import { CategoryModelMapper } from "../category-mapper"
 import { LoadEntityError, UniqueEntityId } from "#seedwork/domain"
+import { setupSequelize } from "#seedwork/infra"
 import { Category } from "#category/domain"
 
 describe("CategoryModelMapper", () => {
-  let sequelize: Sequelize
+  setupSequelize({ models: [CategoryModel] })
   let repository: CategoryRepository
-
-  beforeAll(() =>
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      storage: ':memory:',
-      logging: false,
-      models: [CategoryModel]
-    }))
-
 
   beforeEach(async () => {
     repository = new CategoryRepository(CategoryModel)
-    await sequelize.sync({ force: true })
   })
 
-  afterAll(async () => {
-    await sequelize.close()
-  })
   it("should throws error when category is invalid", () => {
     const model = CategoryModel.build({ id: '025a9698-d6a6-43fa-943f-3a2b21b6709a' })
     try {
@@ -51,6 +38,7 @@ describe("CategoryModelMapper", () => {
     const model = CategoryModel.build({ id: '025a9698-d6a6-43fa-943f-3a2b21b6709a' })
     expect(() => CategoryModelMapper.toEntity(model)).toThrow(error)
     expect(spyValidate).toHaveBeenCalled()
+    spyValidate.mockRestore()
   })
 
   it("should convert a category model to a category entity", () => {

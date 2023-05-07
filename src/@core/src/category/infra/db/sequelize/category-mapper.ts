@@ -1,5 +1,5 @@
-import { Category } from "#category/domain";
-import { EntityValidationError, LoadEntityError, UniqueEntityId,  } from "#seedwork/domain";
+import { Category } from "../../../../category/domain";
+import { EntityValidationError, LoadEntityError, UniqueEntityId } from "../../../../@seedwork/domain";
 import { CategoryModel } from "./category-model";
 
 export class CategoryModelMapper {
