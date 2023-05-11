@@ -8,7 +8,19 @@ type StubEntityProps = {
   price: number;
 };
 
-class StubEntity extends Entity<StubEntityProps> {}
+class StubEntity extends Entity<UniqueEntityId, StubEntityProps> {
+  constructor(props: StubEntityProps, entityId?: UniqueEntityId) {
+    super(props, entityId ?? new UniqueEntityId());
+  }
+
+  toJSON(): { id: string } & StubEntityProps {
+    return {
+      id: this.id,
+      name: this.props.name,
+      price: this.props.price,
+    };
+  }
+}
 
 class StubInMemoryRepository extends InMemoryRepository<StubEntity> {}
 
@@ -16,24 +28,23 @@ describe("InMemoryRepository Unit Tests", () => {
   let repository: StubInMemoryRepository;
   beforeEach(() => (repository = new StubInMemoryRepository()));
   it("should inserts a new entity", async () => {
-    const repository = new StubInMemoryRepository();
     const entity = new StubEntity({ name: "name value", price: 5 });
     await repository.insert(entity);
     expect(entity.toJSON()).toStrictEqual(repository.items[0].toJSON());
   });
 
-  it("should throws error when entity not found", () => {
-    expect(repository.findById("fake id")).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID fake id`)
+  it("should throws error when entity not found", async () => {
+    await expect(repository.findById("fake id")).rejects.toThrow(
+      new NotFoundError("Entity Not Found using ID fake id")
     );
 
-    expect(
+    await expect(
       repository.findById(
-        new UniqueEntityId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
+        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
       )
     ).rejects.toThrow(
       new NotFoundError(
-        "Entity Not Found using ID 025a9698-d6a6-43fa-943f-3a2b21b6709a"
+        `Entity Not Found using ID 9366b7dc-2d71-4799-b91c-c64adb205104`
       )
     );
   });
@@ -45,7 +56,7 @@ describe("InMemoryRepository Unit Tests", () => {
     let entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
 
-    entityFound = await repository.findById(entity.uniqueEntityId);
+    entityFound = await repository.findById(entity.entityId);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
   });
 
@@ -58,14 +69,7 @@ describe("InMemoryRepository Unit Tests", () => {
     expect(entities).toStrictEqual([entity]);
   });
 
-  it("should throws error on update when entity not not found", () => {
-    const entity = new StubEntity({ name: "name value", price: 5 });
-    expect(repository.update(entity)).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID ${entity.id}`)
-    );
-  });
-
-  it("should throws error on delete when entity not not found", () => {
+  it("should throws error on update when entity not found", () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     expect(repository.update(entity)).rejects.toThrow(
       new NotFoundError(`Entity Not Found using ID ${entity.id}`)
@@ -76,25 +80,26 @@ describe("InMemoryRepository Unit Tests", () => {
     const entity = new StubEntity({ name: "name value", price: 5 });
     await repository.insert(entity);
 
-    const updatedEntity = new StubEntity(
-      { name: "new name", price: 10 },
-      entity.uniqueEntityId
+    const entityUpdated = new StubEntity(
+      { name: "updated", price: 1 },
+      entity.entityId
     );
-    await repository.update(updatedEntity);
-    expect(updatedEntity.toJSON()).toStrictEqual(repository.items[0].toJSON());
+    await repository.update(entityUpdated);
+    expect(entityUpdated.toJSON()).toStrictEqual(repository.items[0].toJSON());
   });
+
   it("should throws error on delete when entity not found", () => {
     expect(repository.delete("fake id")).rejects.toThrow(
-      new NotFoundError(`Entity Not Found using ID fake id`)
+      new NotFoundError("Entity Not Found using ID fake id")
     );
 
     expect(
       repository.delete(
-        new UniqueEntityId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
+        new UniqueEntityId("9366b7dc-2d71-4799-b91c-c64adb205104")
       )
     ).rejects.toThrow(
       new NotFoundError(
-        "Entity Not Found using ID 025a9698-d6a6-43fa-943f-3a2b21b6709a"
+        `Entity Not Found using ID 9366b7dc-2d71-4799-b91c-c64adb205104`
       )
     );
   });
@@ -107,7 +112,8 @@ describe("InMemoryRepository Unit Tests", () => {
     expect(repository.items).toHaveLength(0);
 
     await repository.insert(entity);
-    await repository.delete(entity.uniqueEntityId);
+
+    await repository.delete(entity.entityId);
     expect(repository.items).toHaveLength(0);
   });
 });

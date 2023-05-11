@@ -1,9 +1,8 @@
-import UniqueEntityId from "#seedwork/domain/value-objects/unique-entity-id.vo";
-import { Category, CategoryProperties } from "./category";
+import { Category, CategoryId, CategoryProperties } from "../category";
 import { omit } from "lodash";
 interface CategoryData {
   props: CategoryProperties;
-  id?: UniqueEntityId | null;
+  id?: CategoryId | null;
 }
 describe("Category unit tests", () => {
   beforeEach(() => {
@@ -73,13 +72,13 @@ describe("Category unit tests", () => {
       { props: { name: "Movie" } },
       { props: { name: "Movie" }, id: null },
       { props: { name: "Movie" }, id: undefined },
-      { props: { name: "Movie" }, id: new UniqueEntityId() },
+      { props: { name: "Movie" }, id: new CategoryId() },
     ];
 
     data.forEach((item) => {
       const category = new Category(item.props, item.id as any);
       expect(category.id).not.toBeNull();
-      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
+      expect(category.entityId).toBeInstanceOf(CategoryId);
     });
   });
 

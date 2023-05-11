@@ -1,4 +1,4 @@
-import Entity from "../entity/entity";
+import { Entity } from "../entity/entity";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
 
 export interface RepositoryInterface<E extends Entity> {
@@ -131,16 +131,16 @@ export class SearchResult<E extends Entity, Filter = string> {
     this.filter = props.filter;
   }
 
-  public toJSON() {
+  public toJSON(forceEntity = false) {
     return {
-      items: this.items,
+      items: forceEntity ? this.items.map((item) => item.toJSON()) : this.items,
       total: this.total,
       current_page: this.current_page,
       per_page: this.per_page,
       last_page: this.last_page,
       sort: this.sort,
       sort_dir: this.sort_dir,
-      filter: this.filter,
+      filter: this.filter as any,
     };
   }
 }

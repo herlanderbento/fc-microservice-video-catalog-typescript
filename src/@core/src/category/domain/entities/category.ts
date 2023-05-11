@@ -1,9 +1,10 @@
-import Entity from "../../../@seedwork/domain/entity/entity";
+import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 import CategoryValidatorFactory, {
   CategoryValidator,
 } from "../validators/category.validator";
+import { CategoryFakeBuilder } from "./category-fake-builder";
 
 export type CategoryProperties = {
   name: string;
@@ -14,12 +15,18 @@ export type CategoryProperties = {
 
 export type CategoryPropsJson = Required<{ id: string } & CategoryProperties>;
 
-export class Category extends Entity<CategoryProperties> {
+export class CategoryId extends UniqueEntityId {}
+
+export class Category extends AggregateRoot<
+  CategoryId,
+  CategoryProperties,
+  CategoryPropsJson
+> {
   public constructor(
     public readonly props: CategoryProperties,
-    id?: UniqueEntityId
+    entityId?: CategoryId
   ) {
-    super(props, id);
+    super(props, entityId ?? new CategoryId());
     Category.validate(props);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
@@ -62,10 +69,11 @@ export class Category extends Entity<CategoryProperties> {
     this.name = name;
     this.description = description;
   }
-  
+
   public static validate(props: CategoryProperties): void {
     const validator: CategoryValidator = CategoryValidatorFactory.create();
     const isValid = validator.validate(props);
+
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
@@ -77,5 +85,19 @@ export class Category extends Entity<CategoryProperties> {
 
   public deactivate(): void {
     this.props.is_active = false;
+  }
+
+  public static fake() {
+    return CategoryFakeBuilder;
+  }
+
+  public toJSON(): CategoryPropsJson {
+    return {
+      id: this.id.toString(),
+      name: this.name,
+      description: this.description,
+      is_active: this.is_active,
+      created_at: this.created_at,
+    };
   }
 }
