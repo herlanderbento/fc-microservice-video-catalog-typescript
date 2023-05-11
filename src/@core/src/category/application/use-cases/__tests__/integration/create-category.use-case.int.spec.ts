@@ -5,8 +5,8 @@ import { CreateCategoryUseCase } from "../../create-category.use-case";
 const { CategoryModel, CategoryRepository } = CategorySequelize;
 
 describe("CreateCategoryUseCase Integration Tests", () => {
-  let repository: CategorySequelize.CategoryRepository;
   let useCase: CreateCategoryUseCase.UseCase;
+  let repository: CategorySequelize.CategoryRepository;
 
   setupSequelize({ models: [CategoryModel] });
 
