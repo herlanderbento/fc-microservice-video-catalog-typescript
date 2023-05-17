@@ -4,6 +4,10 @@
  */
 
 export default {
+  displayName: {
+    name: "@core",
+    color: "blue",
+  },
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -23,7 +27,7 @@ export default {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "<rootDir>/../__coverage",
+  coverageDirectory: "<rootDir>/../../../__coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -35,11 +39,11 @@ export default {
 
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: [
-    "json",
-    "html",
-    "text",
-    // "lcov",
-    // "clover"
+    // "json",
+    // "html",
+    // "text",
+    // // "lcov",
+    // // "clover"
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
@@ -143,7 +147,10 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["./@seedwork/domain/tests/validations.ts"],
+  setupFilesAfterEnv: [
+    "./@seedwork/domain/tests/validations.ts",
+    "./@seedwork/domain/tests/jest.ts",
+  ],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

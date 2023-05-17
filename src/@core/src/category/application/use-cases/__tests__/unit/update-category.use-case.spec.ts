@@ -17,7 +17,7 @@ describe("UpdateCategoryUseCase Unit Tests", () => {
       useCase.execute({ id: "fake id", name: "fake" })
     ).rejects.toThrow(new NotFoundError(`Entity Not Found using ID fake id`));
   });
-  it("should create a category", async () => {
+  it("should update a category", async () => {
     const spyUpdate = jest.spyOn(repository, "update");
     const entity = new Category({ name: "Movie" });
     repository.items = [entity];

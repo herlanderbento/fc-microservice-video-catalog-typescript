@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import {
   CreateCategoryUseCase,
   DeleteCategoryUseCase,
@@ -6,13 +7,30 @@ import {
   UpdateCategoryUseCase,
 } from '@fc/micro-videos/src/category/application';
 import { CategoryRepository } from '@fc/micro-videos/src/category/domain';
-import { CategoryInMemoryRepository } from '@fc/micro-videos/src/category/infra';
+import {
+  CategoryInMemoryRepository,
+  CategorySequelize,
+} from '@fc/micro-videos/src/category/infra';
+import { getModelToken } from '@nestjs/sequelize';
 
 export namespace CATEGORIES_PROVIDER {
   export namespace REPOSITORIES {
     export const CATEGORY_IN_MEMORY_REPOSITORY = {
       provide: 'CategoryInMemoryRepository',
       useClass: CategoryInMemoryRepository,
+    };
+
+    export const CATEGORY_SEQUELIZE_REPOSITORY = {
+      provide: 'CategorySequelizeRepository',
+      useFactory: (categoryModel: typeof CategorySequelize.CategoryModel) => {
+        return new CategorySequelize.CategoryRepository(categoryModel);
+      },
+      inject: [getModelToken(CategorySequelize.CategoryModel)],
+    };
+
+    export const CATEGORY_REPOSITORY = {
+      provide: 'CategoryRepository',
+      useExisting: 'CategorySequelizeRepository',
     };
   }
 

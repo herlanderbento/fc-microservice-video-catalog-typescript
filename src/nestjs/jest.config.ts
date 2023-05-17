@@ -18,7 +18,8 @@ export default {
   testEnvironment: 'node',
   moduleNameMapper: {
     // '@fc/micro\\-videos/(.*)$': `${fc_micro_videos_path}/$1`,
-    '/@fc\\/micro-videos\\/(.*)/': '<rootDir>//../../../node_modules/@fc/micro-videos/dist/$1',
+    '/@fc\\/micro-videos\\/(.*)/':
+      '<rootDir>//../../../node_modules/@fc/micro-videos/dist/$1',
     //'#seedwork/domain': '<rootDir>/../../../node_modules/@fc/micro-videos/dist/@seedwork/domain/index.js',
     //TODO - vamos ver depois
     // '#seedwork/(.*)$': `${fc_micro_videos_path}/@seedwork/$1`,
@@ -29,6 +30,7 @@ export default {
     // '#cast-member/(.*)$': `${fc_micro_videos_path}/cast-member/$1`,
   },
   setupFilesAfterEnv: ['../../@core/src/@seedwork/domain/tests/jest.ts'],
+
   coverageThreshold: {
     // global: {
     //   statements: 80,
