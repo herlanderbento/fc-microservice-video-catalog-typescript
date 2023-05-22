@@ -1,12 +1,17 @@
-import { Entity } from "../entity/entity";
-import UniqueEntityId from "../value-objects/unique-entity-id.vo";
+import AggregateRoot from "../entity/aggregate-root";
+import Entity from "../entity/entity";
+import { ValueObject } from "../value-objects";
 
-export interface RepositoryInterface<E extends Entity> {
+export interface RepositoryInterface<
+  E extends AggregateRoot,
+  EntityId extends ValueObject
+> {
   insert(entity: E): Promise<void>;
-  findById(id: string | UniqueEntityId): Promise<E>;
+  bulkInsert(entities: E[]): Promise<void>;
+  findById(id: string | EntityId): Promise<E>;
   findAll(): Promise<E[]>;
   update(entity: E): Promise<void>;
-  delete(id: string | UniqueEntityId): Promise<void>;
+  delete(id: string | EntityId): Promise<void>;
 }
 
 export type SortDirection = "asc" | "desc";
@@ -26,7 +31,7 @@ export class SearchParams<Filter = string> {
   protected _sort_dir: SortDirection | null;
   protected _filter: Filter | null;
 
-  public constructor(props: SearchProps<Filter> = {}) {
+  constructor(props: SearchProps<Filter> = {}) {
     this.page = props.page;
     this.per_page = props.per_page;
     this.sort = props.sort;
@@ -34,7 +39,7 @@ export class SearchParams<Filter = string> {
     this.filter = props.filter;
   }
 
-  public get page() {
+  get page() {
     return this._page;
   }
 
@@ -48,7 +53,7 @@ export class SearchParams<Filter = string> {
     this._page = _page;
   }
 
-  public get per_page() {
+  get per_page() {
     return this._per_page;
   }
 
@@ -66,7 +71,7 @@ export class SearchParams<Filter = string> {
     this._per_page = _per_page;
   }
 
-  public get sort(): string | null {
+  get sort(): string | null {
     return this._sort;
   }
 
@@ -75,7 +80,7 @@ export class SearchParams<Filter = string> {
       value === null || value === undefined || value === "" ? null : `${value}`;
   }
 
-  public get sort_dir(): SortDirection | null {
+  get sort_dir(): SortDirection | null {
     return this._sort_dir;
   }
 
@@ -88,7 +93,7 @@ export class SearchParams<Filter = string> {
     this._sort_dir = dir !== "asc" && dir !== "desc" ? "asc" : dir;
   }
 
-  public get filter(): Filter | null {
+  get filter(): Filter | null {
     return this._filter;
   }
 
@@ -100,27 +105,27 @@ export class SearchParams<Filter = string> {
   }
 }
 
-export type SearchResultProps<E extends Entity, Filter> = {
+type SearchResultProps<E extends Entity, Filter> = {
   items: E[];
   total: number;
   current_page: number;
   per_page: number;
   sort: string | null;
-  sort_dir: SortDirection | null;
+  sort_dir: string | null;
   filter: Filter | null;
 };
 
-export class SearchResult<E extends Entity, Filter = string> {
-  public readonly items: E[];
-  public readonly total: number;
-  public readonly current_page: number;
-  public readonly per_page: number;
-  public readonly last_page: number;
-  public readonly sort: string | null;
-  public readonly sort_dir: SortDirection | null;
-  public readonly filter: Filter | null;
+export class SearchResult<E extends Entity = Entity, Filter = string> {
+  readonly items: E[];
+  readonly total: number;
+  readonly current_page: number;
+  readonly per_page: number;
+  readonly last_page: number;
+  readonly sort: string | null;
+  readonly sort_dir: string | null;
+  readonly filter: Filter;
 
-  public constructor(props: SearchResultProps<E, Filter>) {
+  constructor(props: SearchResultProps<E, Filter>) {
     this.items = props.items;
     this.total = props.total;
     this.current_page = props.current_page;
@@ -131,7 +136,7 @@ export class SearchResult<E extends Entity, Filter = string> {
     this.filter = props.filter;
   }
 
-  public toJSON(forceEntity = false) {
+  toJSON(forceEntity = false) {
     return {
       items: forceEntity ? this.items.map((item) => item.toJSON()) : this.items,
       total: this.total,
@@ -145,12 +150,17 @@ export class SearchResult<E extends Entity, Filter = string> {
   }
 }
 
+//category.props.name
+
+//Entidade e Objetos
+
 export interface SearchableRepositoryInterface<
   E extends Entity,
+  EntityId extends ValueObject,
   Filter = string,
-  SearchInput = SearchParams,
+  SearchInput = SearchParams<Filter>,
   SearchOutput = SearchResult<E, Filter>
-> extends RepositoryInterface<E> {
-  sortableFields: Array<string>;
-  search(searchParams: SearchInput): Promise<SearchOutput>;
+> extends RepositoryInterface<E, EntityId> {
+  sortableFields: string[];
+  search(props: SearchInput): Promise<SearchOutput>;
 }

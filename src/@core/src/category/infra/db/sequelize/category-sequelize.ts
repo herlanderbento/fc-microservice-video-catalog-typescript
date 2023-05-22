@@ -8,6 +8,7 @@ import {
 import {
   CategoryRepository as CategoryRepositoryContract,
   Category,
+  CategoryId,
 } from "../../../domain";
 import { Op, literal } from "sequelize";
 import { SequelizeModelFactory } from "../../../../@seedwork/infra";
@@ -80,10 +81,10 @@ export namespace CategorySequelize {
       await this.categoryModel.bulkCreate(entities.map((e) => e.toJSON()));
     }
 
-    public async findById(id: string | UniqueEntityId): Promise<Category> {
+    public async findById(id: string | CategoryId): Promise<Category> {
+      //DDD Entidade - regras - valida
       const _id = `${id}`;
       const model = await this._get(_id);
-
       return CategoryModelMapper.toEntity(model);
     }
 
@@ -100,7 +101,7 @@ export namespace CategorySequelize {
       });
     }
 
-    public async delete(id: string | UniqueEntityId): Promise<void> {
+    public async delete(id: string | CategoryId): Promise<void> {
       const _id = `${id}`;
       await this._get(_id);
       this.categoryModel.destroy({ where: { id: _id } });

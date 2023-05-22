@@ -1,6 +1,6 @@
 import { CategorySequelize } from "../category-sequelize";
-import { Category, CategoryRepository } from "#category/domain";
-import { NotFoundError, UniqueEntityId } from "#seedwork/domain";
+import { Category, CategoryId, CategoryRepository } from "#category/domain";
+import { NotFoundError } from "#seedwork/domain";
 import { setupSequelize } from "#seedwork/infra";
 import _chance from "chance";
 
@@ -41,7 +41,7 @@ describe("CategoryRepository integration tests", () => {
 
     await expect(
       repository.findById(
-        new UniqueEntityId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
+        new CategoryId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
       )
     ).rejects.toThrow(
       new NotFoundError(
@@ -61,7 +61,7 @@ describe("CategoryRepository integration tests", () => {
     let entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
 
-    entityFound = await repository.findById(new UniqueEntityId(entity.id));
+    entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toStrictEqual(entityFound.toJSON());
   });
 
@@ -100,7 +100,7 @@ describe("CategoryRepository integration tests", () => {
 
     await expect(
       repository.delete(
-        new UniqueEntityId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
+        new CategoryId("025a9698-d6a6-43fa-943f-3a2b21b6709a")
       )
     ).rejects.toThrowError(
       new NotFoundError(

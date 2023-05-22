@@ -1,7 +1,15 @@
-import { CreateCategoryUseCase, GetCategoryUseCase, ListCategoriesUseCase, UpdateCategoryUseCase } from '@fc/micro-videos/src/category/application';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import {
+  CreateCategoryUseCase,
+  GetCategoryUseCase,
+  ListCategoriesUseCase,
+  UpdateCategoryUseCase,
+} from '@fc/micro-videos/src/category/application';
 import { CategoriesController } from './../../categories.controller';
 import { CreateCategoryDto } from './../../dto/create-category.dto';
-import { SortDirection } from '@fc/micro-videos/@seedwork/domain';
+import { SortDirection } from '@fc/micro-videos/src/@seedwork/domain';
+import { CategoryPresenter } from '../../presenters/category.presenter';
+import { UpdateCategoryDto } from '../../dto/update-category.dto';
 
 describe('CategoriesController Unit tests', () => {
   let controller: CategoriesController;
@@ -11,7 +19,7 @@ describe('CategoriesController Unit tests', () => {
   });
 
   it('should creates a category', async () => {
-    const expectedOutput: CreateCategoryUseCase.Output = {
+    const output: CreateCategoryUseCase.Output = {
       id: '1f411234-ce7c-4d83-bc4c-9b9746370605',
       name: 'Movie',
       description: 'some description',
@@ -19,7 +27,7 @@ describe('CategoriesController Unit tests', () => {
       created_at: new Date(),
     };
     const mockCreateUseCase = {
-      execute: jest.fn().mockReturnValue(expectedOutput),
+      execute: jest.fn().mockReturnValue(output),
     };
     //@ts-expect-error
     controller['createUseCase'] = mockCreateUseCase;
@@ -29,15 +37,17 @@ describe('CategoriesController Unit tests', () => {
       description: 'some description',
       is_active: true,
     };
-    const output = await controller.create(input);
+    const presenter = await controller.create(input);
     expect(mockCreateUseCase.execute).toHaveBeenCalledWith(input);
     expect(controller).toBeDefined();
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(CategoryPresenter);
+    expect(presenter).toStrictEqual(new CategoryPresenter(output));
+    // expect(expectedOutput).toStrictEqual(output);
   });
 
-  it('should updates a  category', async () => {
+  it('should updates a category', async () => {
     const id = '9366b7dc-2d71-4799-b91c-c64adb205104';
-    const expectedOutput: UpdateCategoryUseCase.Output = {
+    const output: UpdateCategoryUseCase.Output = {
       id,
       name: 'Movie',
       description: 'some description',
@@ -45,31 +55,30 @@ describe('CategoriesController Unit tests', () => {
       created_at: new Date(),
     };
     const mockUpdateUseCase = {
-      execute: jest.fn().mockReturnValue(expectedOutput),
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
     };
-    //@ts-expect-error
+    //@ts-expect-error defined part of methods
     controller['updateUseCase'] = mockUpdateUseCase;
-
-    const input: CreateCategoryDto = {
+    const input: UpdateCategoryDto = {
       name: 'Movie',
       description: 'some description',
       is_active: true,
     };
-    const output = await controller.update(id, input);
+    const presenter = await controller.update(id, input);
     expect(mockUpdateUseCase.execute).toHaveBeenCalledWith({ id, ...input });
-    expect(controller).toBeDefined();
-    expect(expectedOutput).toStrictEqual(output);
+    expect(presenter).toBeInstanceOf(CategoryPresenter);
+    expect(presenter).toStrictEqual(new CategoryPresenter(output));
   });
 
   it('should deletes a category', async () => {
-    const expectedOutput = undefined
+    const expectedOutput = undefined;
     const mockDeleteUseCase = {
       execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
     };
     //@ts-expect-error
     controller['deleteUseCase'] = mockDeleteUseCase;
     const id = '9366b7dc-2d71-4799-b91c-c64adb205104';
-    expect(controller.remove(id)).toBeInstanceOf(Promise)
+    expect(controller.remove(id)).toBeInstanceOf(Promise);
 
     const output = await controller.remove(id);
     expect(mockDeleteUseCase.execute).toHaveBeenCalledWith({ id });
@@ -78,7 +87,7 @@ describe('CategoriesController Unit tests', () => {
 
   it('should gets a category', async () => {
     const id = '9366b7dc-2d71-4799-b91c-c64adb205104';
-    const expectedOutput: GetCategoryUseCase.Output = {
+    const output: GetCategoryUseCase.Output = {
       id,
       name: 'Movie',
       description: 'some description',
@@ -86,13 +95,14 @@ describe('CategoriesController Unit tests', () => {
       created_at: new Date(),
     };
     const mockGetUseCase = {
-      execute: jest.fn().mockReturnValue(expectedOutput),
+      execute: jest.fn().mockReturnValue(output),
     };
     //@ts-expect-error
     controller['getUseCase'] = mockGetUseCase;
-    const output = await controller.findOne(id);
+    const presenter = await controller.findOne(id);
     expect(mockGetUseCase.execute).toHaveBeenCalledWith({ id });
-    expect(expectedOutput).toStrictEqual(output)
+    expect(presenter).toBeInstanceOf(CategoryPresenter);
+    expect(presenter).toStrictEqual(new CategoryPresenter(output));
   });
 
   it('should lists a category', async () => {
@@ -125,6 +135,6 @@ describe('CategoriesController Unit tests', () => {
     };
     const output = await controller.search(searchParams);
     expect(mockListUseCase.execute).toHaveBeenCalledWith(searchParams);
-    expect(expectedOutput).toEqual(output)
+    expect(expectedOutput).toEqual(output);
   });
 });

@@ -20,6 +20,7 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { SearchCategoryDto } from './dto/search-category.dto';
+import { CategoryPresenter } from './presenters/category.presenter';
 
 @Controller('categories')
 export class CategoriesController {
@@ -36,17 +37,19 @@ export class CategoriesController {
 
   @Post()
   public async create(@Body() createCategoryDto: CreateCategoryDto) {
-    return await this.createUseCase.execute(createCategoryDto);
+    const output = await this.createUseCase.execute(createCategoryDto);
+    return new CategoryPresenter(output);
   }
 
   @Get()
   public async search(@Query() searchParams: SearchCategoryDto) {
-    return await this.listUseCase.execute(searchParams);
+    return this.listUseCase.execute(searchParams);
   }
 
   @Get(':id')
   public async findOne(@Param('id') id: string) {
-    return await this.getUseCase.execute({ id });
+    const output = await this.getUseCase.execute({ id });
+    return new CategoryPresenter(output);
   }
 
   @Put(':id')
@@ -54,15 +57,17 @@ export class CategoriesController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return await this.updateUseCase.execute({
+    const output = await this.updateUseCase.execute({
       id,
       ...updateCategoryDto,
     });
+
+    return new CategoryPresenter(output);
   }
 
   @HttpCode(204)
   @Delete(':id')
   public async remove(@Param('id') id: string) {
-    return await this.deleteUseCase.execute({ id });
+    return this.deleteUseCase.execute({ id });
   }
 }

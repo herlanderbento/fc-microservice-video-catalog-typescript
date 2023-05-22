@@ -1,6 +1,6 @@
 import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
-import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
+import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import CategoryValidatorFactory, {
   CategoryValidator,
 } from "../validators/category.validator";
@@ -27,10 +27,10 @@ export class Category extends AggregateRoot<
     entityId?: CategoryId
   ) {
     super(props, entityId ?? new CategoryId());
-    Category.validate(props);
     this.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
+    Category.validate(props);
   }
 
   public get name(): string {

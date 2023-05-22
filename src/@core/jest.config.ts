@@ -160,6 +160,9 @@ export default {
 
   // The test environment that will be used for testing
   // testEnvironment: "jest-environment-node",
+  // testEnvironmentOptions: {
+  //   logging: jest.fn(), // Use uma função vazia como opção de logging
+  // },
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
