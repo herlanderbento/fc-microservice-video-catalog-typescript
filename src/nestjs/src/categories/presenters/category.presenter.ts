@@ -1,5 +1,9 @@
-import { CategoryOutput } from '@fc/micro-videos/src/category/application';
+import {
+  CategoryOutput,
+  ListCategoriesUseCase,
+} from '@fc/micro-videos/src/category/application';
 import { Transform } from 'class-transformer';
+import { CollectionPresenter } from '../../@share/presenter/collection.presenter';
 
 export class CategoryPresenter {
   id: string;
@@ -17,5 +21,15 @@ export class CategoryPresenter {
     this.description = output.description;
     this.is_active = output.is_active;
     this.created_at = output.created_at;
+  }
+}
+
+export class CategoryCollectionPresenter extends CollectionPresenter {
+  public data: CategoryPresenter[];
+
+  constructor(output: ListCategoriesUseCase.Output) {
+    const { items, ...paginationProps } = output;
+    super(paginationProps);
+    this.data = items.map((item) => new CategoryPresenter(item));
   }
 }

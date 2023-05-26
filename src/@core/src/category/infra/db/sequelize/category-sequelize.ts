@@ -82,7 +82,6 @@ export namespace CategorySequelize {
     }
 
     public async findById(id: string | CategoryId): Promise<Category> {
-      //DDD Entidade - regras - valida
       const _id = `${id}`;
       const model = await this._get(_id);
       return CategoryModelMapper.toEntity(model);
@@ -125,7 +124,9 @@ export namespace CategorySequelize {
       });
 
       return new CategoryRepositoryContract.SearchResult({
-        items: models.map((model) => CategoryModelMapper.toEntity(model)),
+        items: models.map((model: CategoryModel) =>
+          CategoryModelMapper.toEntity(model)
+        ),
         current_page: props.page,
         per_page: props.per_page,
         total: count,

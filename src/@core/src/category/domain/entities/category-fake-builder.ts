@@ -18,36 +18,6 @@ export class CategoryFakeBuilder<TBuild = any> {
     this.chance = Chance();
   }
 
-  public get entity_id() {
-    return this.getValue("entity_id");
-  }
-
-  public get name() {
-    return this.getValue("name");
-  }
-
-  public get description() {
-    return this.getValue("description");
-  }
-
-  public get is_active() {
-    return this.getValue("is_active");
-  }
-
-  public get created_at() {
-    return this.getValue("created_at");
-  }
-
-  public activate() {
-    this._is_active = true;
-    return this;
-  }
-
-  public deactivate() {
-    this._is_active = false;
-    return this;
-  }
-
   public static aCategory(): CategoryFakeBuilder<Category> {
     return new CategoryFakeBuilder<Category>();
   }
@@ -126,6 +96,36 @@ export class CategoryFakeBuilder<TBuild = any> {
     return this.countObjs === 1 ? (categories[0] as any) : categories;
   }
 
+  public get entity_id() {
+    return this.getValue("entity_id");
+  }
+
+  public get name() {
+    return this.getValue("name");
+  }
+
+  public get description() {
+    return this.getValue("description");
+  }
+
+  public get is_active() {
+    return this.getValue("is_active");
+  }
+
+  public get created_at() {
+    return this.getValue("created_at");
+  }
+
+  public activate() {
+    this._is_active = true;
+    return this;
+  }
+
+  public deactivate() {
+    this._is_active = false;
+    return this;
+  }
+  
   private getValue(prop: string) {
     const optional = ["entity_id", "created_at"];
     const privateProp = `_${prop}`;

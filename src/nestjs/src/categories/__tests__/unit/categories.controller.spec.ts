@@ -8,7 +8,10 @@ import {
 import { CategoriesController } from './../../categories.controller';
 import { CreateCategoryDto } from './../../dto/create-category.dto';
 import { SortDirection } from '@fc/micro-videos/src/@seedwork/domain';
-import { CategoryPresenter } from '../../presenters/category.presenter';
+import {
+  CategoryPresenter,
+  CategoryCollectionPresenter,
+} from '../../presenters/category.presenter';
 import { UpdateCategoryDto } from '../../dto/update-category.dto';
 
 describe('CategoriesController Unit tests', () => {
@@ -106,7 +109,7 @@ describe('CategoriesController Unit tests', () => {
   });
 
   it('should lists a category', async () => {
-    const expectedOutput: ListCategoriesUseCase.Output = {
+    const output: ListCategoriesUseCase.Output = {
       items: [
         {
           id: '9366b7dc-2d71-4799-b91c-c64adb205104',
@@ -122,7 +125,7 @@ describe('CategoriesController Unit tests', () => {
       total: 1,
     };
     const mockListUseCase = {
-      execute: jest.fn().mockReturnValue(Promise.resolve(expectedOutput)),
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
     };
     //@ts-expect-error defined part of methods
     controller['listUseCase'] = mockListUseCase;
@@ -133,8 +136,9 @@ describe('CategoriesController Unit tests', () => {
       sort_dir: 'desc' as SortDirection,
       filter: 'test',
     };
-    const output = await controller.search(searchParams);
+    const presenter = await controller.search(searchParams);
+    expect(presenter).toBeInstanceOf(CategoryCollectionPresenter);
     expect(mockListUseCase.execute).toHaveBeenCalledWith(searchParams);
-    expect(expectedOutput).toEqual(output);
+    expect(presenter).toEqual(new CategoryCollectionPresenter(output));
   });
 });

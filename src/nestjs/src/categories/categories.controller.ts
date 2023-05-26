@@ -20,7 +20,10 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { SearchCategoryDto } from './dto/search-category.dto';
-import { CategoryPresenter } from './presenters/category.presenter';
+import {
+  CategoryCollectionPresenter,
+  CategoryPresenter,
+} from './presenters/category.presenter';
 
 @Controller('categories')
 export class CategoriesController {
@@ -43,7 +46,8 @@ export class CategoriesController {
 
   @Get()
   public async search(@Query() searchParams: SearchCategoryDto) {
-    return this.listUseCase.execute(searchParams);
+    const output = await this.listUseCase.execute(searchParams);
+    return new CategoryCollectionPresenter(output);
   }
 
   @Get(':id')
@@ -68,6 +72,6 @@ export class CategoriesController {
   @HttpCode(204)
   @Delete(':id')
   public async remove(@Param('id') id: string) {
-    return this.deleteUseCase.execute({ id });
+    return await this.deleteUseCase.execute({ id });
   }
 }
