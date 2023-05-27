@@ -76,7 +76,7 @@ export class CategoryFakeBuilder<TBuild = any> {
     return this;
   }
 
-  public build(): TBuild {
+  public build(): TBuild { 
     const categories = new Array(this.countObjs).fill(undefined).map(
       (_, index) =>
         new Category(

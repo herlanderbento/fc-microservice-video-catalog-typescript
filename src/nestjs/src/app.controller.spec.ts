@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CONFIG_SCHEMA_TYPE, ConfigModule } from './config/config.module';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from './config/config.module';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -15,12 +14,6 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
-
-    // const db_vendor = app
-    //   .get<ConfigService<CONFIG_SCHEMA_TYPE>>(ConfigService)
-    //   .get<CONFIG_SCHEMA_TYPE['DB_VENDOR']>('DB_VENDOR');
-
-    // console.log({ db_vendor });
   });
 
   describe('root', () => {
