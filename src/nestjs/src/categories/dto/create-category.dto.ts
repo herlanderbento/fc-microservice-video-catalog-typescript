@@ -4,13 +4,13 @@ import { IsNotEmpty, IsString, IsBoolean, IsOptional } from 'class-validator';
 export class CreateCategoryDto implements CreateCategoryUseCase.Input {
   @IsString()
   @IsNotEmpty()
-  public name: string;
+  name: string;
 
   @IsString()
   @IsOptional()
-  public description?: string;
+  description?: string;
 
   @IsBoolean()
   @IsOptional()
-  public is_active?: boolean;
+  is_active?: boolean;
 }
