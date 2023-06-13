@@ -1,5 +1,5 @@
 import { Controller, Get, INestApplication } from '@nestjs/common';
-import { EntityValidationErrorFilter } from './entity-validation-error.filter';
+import { EntityValidationErrorFilter } from '../entity-validation-error.filter';
 import { EntityValidationError } from '@fc/micro-videos/src/@seedwork/domain';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';

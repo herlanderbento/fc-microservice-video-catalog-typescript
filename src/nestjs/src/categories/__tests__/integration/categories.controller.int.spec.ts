@@ -59,17 +59,18 @@ describe('CategoriesController Integration Tests', () => {
 
   describe('should create a category', () => {
     const arrange = CategoryFixture.arrangeForSave();
+
     test.each(arrange)(
-      'with request $request',
+      'when body is $send_data',
       async ({ send_data, expected }) => {
         const presenter = await controller.create(send_data);
         const entity = await repository.findById(presenter.id);
 
         expect(entity.toJSON()).toStrictEqual({
           id: presenter.id,
-          ...expected,
-          ...send_data,
           created_at: presenter.created_at,
+          ...send_data,
+          ...expected,
         });
 
         expect(presenter).toEqual(new CategoryPresenter(entity));

@@ -6,6 +6,6 @@ import { applyGlobalConfig } from './global-config';
 async function bootstrap() {
   const app: INestApplication = await NestFactory.create(AppModule);
   applyGlobalConfig(app);
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

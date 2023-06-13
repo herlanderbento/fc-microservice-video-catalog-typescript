@@ -9,7 +9,7 @@ import {
   Put,
   HttpCode,
   Query,
-  ValidationPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import {
   CategoryOutput,
@@ -60,7 +60,7 @@ export class CategoriesController {
 
   @Put(':id')
   public async update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: 422 })) id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     const output = await this.updateUseCase.execute({

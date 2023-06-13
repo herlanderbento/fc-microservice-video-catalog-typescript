@@ -14,9 +14,12 @@ function makeConfig(envFile): Config {
 
   return {
     db: {
-      vendor: output.parsed.DB_VENDOR as any,
-      host: output.parsed.DB_HOST,
-      logging: output.parsed.DB_LOGGING === "true",
+      vendor: 'sqlite',
+      host: ':memory:',
+      logging: true,
+      // vendor: output.parsed.DB_VENDOR as any,
+      // host: output.parsed.DB_HOST,
+      // logging: output.parsed.DB_LOGGING === "true",
       // logging: false,
     },
   };

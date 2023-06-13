@@ -65,11 +65,11 @@ export namespace CategorySequelize {
   {
     sortableFields: string[] = ["name", "created_at"];
 
-    // orderBy = {
-    //   mysql: {
-    //     name: (sort_dir: SortDirection) => literal(`binary name ${sort_dir}`),
-    //   },
-    // };
+    orderBy = {
+      mysql: {
+        name: (sort_dir: SortDirection) => literal(`binary name ${sort_dir}`),
+      },
+    };
 
     public constructor(private categoryModel: typeof CategoryModel) {}
 
