@@ -11,8 +11,7 @@ import { startApp } from '../../src/@share/testing/helpers';
 
 describe('CategoriesController (e2e)', () => {
   const uuid = 'a2540402-4f8a-4368-8877-42f95f3751f5';
-
-  describe('PUT /categories/:id', () => {
+  describe('/categories/:id (PUT)', () => {
     describe('should a response error when id is invalid or not found', () => {
       const nestApp = startApp();
       const faker = Category.fake().aCategory();

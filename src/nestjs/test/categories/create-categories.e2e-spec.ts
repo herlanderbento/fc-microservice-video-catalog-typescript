@@ -12,7 +12,7 @@ import { startApp } from '../../src/@share/testing/helpers';
 describe('CategoriesController (e2e)', () => {
   let categoryRepository: CategoryRepository.Repository;
 
-  describe('POST /categories', () => {
+  describe('/categories (POST)', () => {
     describe('should a response error with 442 request body is invalid', () => {
       const app = startApp();
       const invalidRequest = CategoryFixture.arrangeInvalidRequest();
@@ -56,8 +56,6 @@ describe('CategoriesController (e2e)', () => {
       const arrange = CategoryFixture.arrangeForSave();
 
       beforeEach(async () => {
-        // const sequelize = app.app.get(getConnectionToken());
-        // await sequelize.sync({ force: true });
         categoryRepository = app.app.get<CategoryRepository.Repository>(
           CATEGORIES_PROVIDER.REPOSITORIES.CATEGORY_REPOSITORY.provide,
         );
@@ -80,10 +78,9 @@ describe('CategoriesController (e2e)', () => {
             categoryCreated.toJSON(),
           );
           const serialized = instanceToPlain(presenter);
-          // expect(response.body.data).toStrictEqual(serialized);
-          expect(response.body.data).toMatchObject({
+          expect(response.body.data).toStrictEqual({
             id: serialized.id,
-            // created_at: serialized.created_at,
+            created_at: serialized.created_at,
             ...send_data,
             ...expected,
           });

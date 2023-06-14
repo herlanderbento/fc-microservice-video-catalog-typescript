@@ -11,7 +11,7 @@ export class CategoryPresenter {
   description: string | null;
   is_active: boolean;
   @Transform(({ value }: { value: Date }) => {
-    return value.toISOString();
+    return value.toISOString().slice(0, 19) + '.000z';
   })
   created_at: Date;
 
