@@ -117,7 +117,7 @@ export namespace CategorySequelize {
           where: { name: { [Op.like]: `%${props.filter}%` } },
         }),
         ...(props.sort && this.sortableFields.includes(props.sort)
-          ? { order: [[props.sort, props.sort_dir]] }
+          ? { order: this.formatSort(props.sort, props.sort_dir) }
           : { order: [["created_at", "DESC"]] }),
         offset,
         limit,
@@ -142,13 +142,13 @@ export namespace CategorySequelize {
       });
     }
 
-    // private formatSort(sort: string, sort_dir: SortDirection) {
-    //   const dialect = this.categoryModel.sequelize.getDialect();
-    //   if (this.orderBy[dialect] && this.orderBy[dialect][sort]) {
-    //     return this.orderBy[dialect][sort](sort_dir);
-    //   }
-    //   return [[sort, sort_dir]];
-    // }
+    private formatSort(sort: string, sort_dir: SortDirection) {
+      const dialect = this.categoryModel.sequelize.getDialect();
+      if (this.orderBy[dialect] && this.orderBy[dialect][sort]) {
+        return this.orderBy[dialect][sort](sort_dir);
+      }
+      return [[sort, sort_dir]];
+    }
   }
 
   export class CategoryModelMapper {
