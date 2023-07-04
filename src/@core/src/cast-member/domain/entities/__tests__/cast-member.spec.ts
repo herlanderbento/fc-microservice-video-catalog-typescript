@@ -51,12 +51,38 @@ describe("CastMember Unit Tests", () => {
     });
   });
 
+  test("getter and setter of name prop", () => {
+    const castMember = CastMember.fake().anActor().build();
+    expect(castMember.name).toBe(castMember.props.name);
+
+    castMember["name"] = "other name";
+    expect(castMember.name).toBe("other name");
+  });
+
+  test("getter and setter of type prop", () => {
+    let castMember = CastMember.fake().anActor().build();
+    expect(castMember.type).toEqual(castMember.props.type);
+
+    const director = CastMemberType.createADirector();
+    castMember["type"] = director;
+    expect(castMember.type).toEqual(director);
+  });
+
+  test("getter of created_at prop", () => {
+    let castMember = CastMember.fake().anActor().build();
+    expect(castMember.created_at).toBeInstanceOf(Date);
+
+    let created_at = new Date();
+    castMember = CastMember.fake().anActor().withCreatedAt(created_at).build();
+    expect(castMember.created_at).toBe(created_at);
+  });
+
   it("should update a cast member", () => {
     const director = CastMemberType.createADirector();
     const castMember = new CastMember({ name: "test", type: director });
     const actor = CastMemberType.createAnActor();
     castMember.update("test1", actor);
-    
+
     expect(CastMember.validate).toHaveBeenCalledTimes(2);
     expect(castMember.name).toBe("test1");
     expect(castMember.type).toEqual(actor);

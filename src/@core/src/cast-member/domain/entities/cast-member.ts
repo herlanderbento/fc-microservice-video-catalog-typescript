@@ -3,6 +3,7 @@ import CastMemberValidatorFactory from "../validators/cast-member.validator";
 import { CastMemberType, Types } from "../value-object/cast-member-type.vo";
 import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import AggregateRoot from "../../../@seedwork/domain/entity/aggregate-root";
+import { CastMemberFakeBuilder } from "./cast-member-fake-builder";
 
 export type CastMemberProperties = {
   name: string;
@@ -48,6 +49,10 @@ export class CastMember extends AggregateRoot<
 
   public get created_at() {
     return this.props.created_at;
+  }
+
+  public static fake() {
+    return CastMemberFakeBuilder;
   }
 
   public update(name: string, type: CastMemberType): void {
