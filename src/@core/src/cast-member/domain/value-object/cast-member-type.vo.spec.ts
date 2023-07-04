@@ -17,7 +17,7 @@ describe("CastMemberType Unit Tests", () => {
     expect(valueObject).toBeInstanceOf(CastMemberType);
     expect(valueObject.value).toBe(Types.DIRECTOR);
 
-    valueObject = CastMemberType.createAnDirector()
+    valueObject = CastMemberType.createADirector()
     expect(error).toBeNull();
     expect(valueObject).toBeInstanceOf(CastMemberType);
     expect(valueObject.value).toBe(Types.DIRECTOR);

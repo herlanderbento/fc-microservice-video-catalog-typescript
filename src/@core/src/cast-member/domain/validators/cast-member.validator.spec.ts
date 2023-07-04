@@ -70,7 +70,7 @@ describe("CastMemberValidator Tests", () => {
       },
       {
         name: "some value",
-        type: CastMemberType.createAnDirector(),
+        type: CastMemberType.createADirector(),
       },
     ];
 

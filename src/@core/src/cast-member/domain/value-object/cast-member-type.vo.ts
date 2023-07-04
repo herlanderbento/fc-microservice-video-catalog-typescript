@@ -35,7 +35,7 @@ class CastMemberType extends ValueObject<Types> {
     return CastMemberType.create(Types.ACTOR).getOk();
   }
 
-  public static createAnDirector() {
+  public static createADirector() {
     return CastMemberType.create(Types.DIRECTOR).getOk();
   }
 }
