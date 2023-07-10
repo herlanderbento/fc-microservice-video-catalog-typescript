@@ -52,7 +52,7 @@ describe('CategoriesController Unit tests', () => {
     const id = '9366b7dc-2d71-4799-b91c-c64adb205104';
     const output: UpdateCategoryUseCase.Output = {
       id,
-      name: 'Movie',
+      name: 'category',
       description: 'some description',
       is_active: true,
       created_at: new Date(),
@@ -63,7 +63,7 @@ describe('CategoriesController Unit tests', () => {
     //@ts-expect-error defined part of methods
     controller['updateUseCase'] = mockUpdateUseCase;
     const input: UpdateCategoryDto = {
-      name: 'Movie',
+      name: 'category',
       description: 'some description',
       is_active: true,
     };

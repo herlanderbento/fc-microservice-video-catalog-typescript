@@ -2,9 +2,32 @@ import { FieldsErrors } from "../validators/validator-fields-interface";
 
 export class ValidationError extends Error {}
 
+export abstract class BaseValidationError extends Error {
+  constructor(public error: FieldsErrors = {}, message = "Validation Error") {
+    super(message);
+  }
+
+  public setFromError(field: string, error: Error) {
+    if (error) {
+      this.error[field] = [error.message];
+    }
+  }
+
+  public count() {
+    return Object.keys(this.error).length;
+  }
+}
+
 export class EntityValidationError extends Error {
   public constructor(public error: FieldsErrors) {
     super("Entity Validation Error");
     this.name = "EntityValidationError";
+  }
+}
+
+export class SearchValidationError extends BaseValidationError {
+  constructor(public error: FieldsErrors = {}) {
+    super(error, "Search Validation Error");
+    this.name = "SearchValidationError";
   }
 }

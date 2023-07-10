@@ -5,18 +5,15 @@ import { GetCategoryUseCase } from "../../get-category.use-case";
 describe("GetCategoryUseCase Unit Tests", () => {
   let repository: CategoryInMemoryRepository;
   let useCase: GetCategoryUseCase.UseCase;
-
   beforeEach(() => {
     repository = new CategoryInMemoryRepository();
     useCase = new GetCategoryUseCase.UseCase(repository);
   });
-
   it("should throws error when entity not found", async () => {
     await expect(() => useCase.execute({ id: "fake id" })).rejects.toThrow(
       new NotFoundError(`Entity Not Found using ID fake id`)
     );
   });
-
   it("should returns a category", async () => {
     const items = [new Category({ name: "Movie" })];
     repository.items = items;
