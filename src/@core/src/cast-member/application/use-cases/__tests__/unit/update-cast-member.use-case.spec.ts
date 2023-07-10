@@ -5,16 +5,16 @@ import {
   Types,
 } from "#cast-member/domain";
 import { CastMemberInMemoryRepository } from "#cast-member/infra/db/in-memory/cast-member-in-memory.repository";
-import { Either, EntityValidationError } from "#seedwork/domain";
-import { CreateCastMemberUseCase } from "../../create-cast-member.use-case";
+import { Either, EntityValidationError, NotFoundError } from "#seedwork/domain";
+import UpdateCastMemberUseCase from "../../update-cast-member.use-case";
 
-describe("CreateCastMemberUseCase Unit Tests", () => {
-  let useCase: CreateCastMemberUseCase.UseCase;
+describe("", () => {
+  let useCase: UpdateCastMemberUseCase.UseCase;
   let repository: CastMemberInMemoryRepository;
 
   beforeEach(() => {
     repository = new CastMemberInMemoryRepository();
-    useCase = new CreateCastMemberUseCase.UseCase(repository);
+    useCase = new UpdateCastMemberUseCase.UseCase(repository);
     jest.restoreAllMocks();
   });
 
@@ -43,13 +43,21 @@ describe("CreateCastMemberUseCase Unit Tests", () => {
   });
 
   describe("execute method", () => {
-    it("should throw an generic error", async () => {
-      const expectedError = new Error("generic error");
-      jest.spyOn(repository, "insert").mockRejectedValue(expectedError);
-      const spyHandleError = jest.spyOn(useCase, "handleError" as any);
+    it("should throws error when entity not found", async () => {
+      await expect(() =>
+        useCase.execute({ id: "fake id", name: "fake", type: "fake" } as any)
+      ).rejects.toThrow(new NotFoundError(`Entity Not Found using ID fake id`));
+    });
 
+    it("should throw an generic error", async () => {
+      const castMember = CastMember.fake().anActor().build();
+      await repository.insert(castMember);
+      const expectedError = new Error("generic error");
+      jest.spyOn(repository, "update").mockRejectedValue(expectedError);
+      const spyHandleError = jest.spyOn(useCase, "handleError" as any);
       await expect(
         useCase.execute({
+          id: castMember.id,
           name: "test",
           type: Types.ACTOR,
         })
@@ -58,6 +66,8 @@ describe("CreateCastMemberUseCase Unit Tests", () => {
     });
 
     it("should throw an entity validation error", async () => {
+      const castMember = CastMember.fake().anActor().build();
+      await repository.insert(castMember);
       const expectedError = new EntityValidationError({
         name: ["is required"],
       });
@@ -68,6 +78,7 @@ describe("CreateCastMemberUseCase Unit Tests", () => {
       const spyHandleError = jest.spyOn(useCase, "handleError" as any);
       await expect(
         useCase.execute({
+          id: castMember.id,
           name: "test",
           type: Types.ACTOR,
         })
@@ -82,6 +93,7 @@ describe("CreateCastMemberUseCase Unit Tests", () => {
         .mockImplementation(() => Either.fail(castMemberTypeError));
       await expect(
         useCase.execute({
+          id: castMember.id,
           name: "test",
           type: Types.ACTOR,
         })
@@ -92,31 +104,66 @@ describe("CreateCastMemberUseCase Unit Tests", () => {
       );
     });
 
-    it("should create a cast member", async () => {
-      const spyInsert = jest.spyOn(repository, "insert");
+    it("should update a cast member", async () => {
+      const spyUpdate = jest.spyOn(repository, "update");
+      const entity = CastMember.fake().anActor().build();
+      repository.items = [entity];
+
       let output = await useCase.execute({
+        id: entity.id,
         name: "test",
         type: Types.ACTOR,
       });
-      expect(spyInsert).toHaveBeenCalledTimes(1);
+      expect(spyUpdate).toHaveBeenCalledTimes(1);
       expect(output).toStrictEqual({
-        id: repository.items[0].id,
+        id: entity.id,
         name: "test",
         type: Types.ACTOR,
-        created_at: repository.items[0].created_at,
+        created_at: entity.created_at,
       });
 
-      output = await useCase.execute({
-        name: "test",
-        type: Types.DIRECTOR,
-      });
-      expect(spyInsert).toHaveBeenCalledTimes(2);
-      expect(output).toStrictEqual({
-        id: repository.items[1].id,
-        name: "test",
-        type: Types.DIRECTOR,
-        created_at: repository.items[1].created_at,
-      });
+      type Arrange = {
+        input: {
+          id: string;
+          name: string;
+          type: Types;
+        };
+        expected: {
+          id: string;
+          name: string;
+          type: Types;
+          created_at: Date;
+        };
+      };
+      const arrange: Arrange[] = [
+        {
+          input: {
+            id: entity.id,
+            name: "test",
+            type: Types.DIRECTOR,
+          },
+          expected: {
+            id: entity.id,
+            name: "test",
+            type: Types.DIRECTOR,
+            created_at: entity.created_at,
+          },
+        },
+      ];
+
+      for (const item of arrange) {
+        output = await useCase.execute({
+          id: item.input.id,
+          name: item.input.name,
+          type: item.input.type,
+        });
+        expect(output).toStrictEqual({
+          id: entity.id,
+          name: item.expected.name,
+          type: item.expected.type,
+          created_at: item.expected.created_at,
+        });
+      }
     });
   });
 });
