@@ -1,5 +1,49 @@
 {
   "extends": "../../tsconfig.base.json",
+  "type": "object",
+  "properties": {
+    "compilerOptions": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "enum": [
+            "es3",
+            "es5",
+            "es6",
+            "es2015",
+            "es2016",
+            "es2017",
+            "es2018",
+            "es2019",
+            "es2020",
+            "es2021",
+            "esnext"
+          ]
+        },
+        "module": {
+          "type": "string",
+          "enum": [
+            "none",
+            "commonjs",
+            "amd",
+            "system",
+            "umd",
+            "es2015",
+            "es2020",
+            "esnext",
+            "node12",
+            "node14",
+            "node16"
+          ]
+        },
+        "outDir": {
+          "type": "string"
+        },
+      },
+      "additionalProperties": false
+    },
+  },
   "compilerOptions": {
     "skipLibCheck": true,
     "baseUrl": "./src",
@@ -17,7 +61,7 @@
         "./genre/*"
       ]
     },
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "include": [
     "./src/**/*"

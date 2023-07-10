@@ -18,9 +18,10 @@ export abstract class BaseValidationError extends Error {
   }
 }
 
-export class EntityValidationError extends Error {
-  public constructor(public error: FieldsErrors) {
-    super("Entity Validation Error");
+
+export class EntityValidationError extends BaseValidationError {
+  constructor(error: FieldsErrors = {}) {
+    super(error, "Entity Validation Error");
     this.name = "EntityValidationError";
   }
 }

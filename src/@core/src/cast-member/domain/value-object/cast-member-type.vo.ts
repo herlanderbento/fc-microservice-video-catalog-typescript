@@ -1,4 +1,4 @@
-import ValueObject from "../../../../dist/@seedwork/domain/value-objects/value-object";
+import ValueObject from "../../../@seedwork/domain/value-objects/value-object";
 import { Either } from "../../../@seedwork/domain/utils/either";
 import { InvalidCastMemberTypeError } from "../errors/invalid-cast-member-type.error";
 
