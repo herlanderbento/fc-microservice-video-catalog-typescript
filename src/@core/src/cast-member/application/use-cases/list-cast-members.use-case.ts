@@ -1,4 +1,3 @@
-import { Types } from "../../domain/value-object/cast-member-type.vo";
 import { default as DefaultUseCase } from "../../../@seedwork/application/use-cases";
 import { CastMemberOutput, CastMemberOutputMapper } from "../dto";
 import { SearchInputDto } from "../../../@seedwork/application/dto/search-input";
@@ -7,6 +6,7 @@ import {
   PaginationOutputMapper,
 } from "../../../@seedwork/application/dto/pagination-output";
 import { CastMemberRepository } from "../../domain";
+import { Types } from "../../domain/value-object/cast-member-type.vo";
 
 export namespace ListCastMembersUseCase {
   export class UseCase implements DefaultUseCase<Input, Output> {

@@ -20,6 +20,7 @@ describe("CategoryRepository integration tests", () => {
 
   it("should inserts a new category", async () => {
     let category = new Category({ name: "Movie" });
+    console.log(category);
     await repository.insert(category);
     let entity = await CategoryModel.findByPk(category.id);
     expect(entity.toJSON()).toStrictEqual(category.toJSON());
